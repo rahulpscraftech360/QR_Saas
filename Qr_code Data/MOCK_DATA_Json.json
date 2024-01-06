@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+
+    "name": "Rudresh",
+    "email": "rudresh@craftech360.com",
+    "gender": "Male",
+    "mobile number": "605-342-9927"
+  },
+  {
+    "id": 2,
+
+    "name": "sachin",
+    "email": "sachin@craftech360.com",
+    "gender": "Male",
+    "mobile number": "605-342-9927"
+  },
+  {
+    "id": 3,
+
+    "name": "abilash",
+    "email": "abilash@craftech360.com",
+    "gender": "Male",
+    "mobile number": "605-342-9927"
+  },
+  {
+    "id": 4,
+
+    "name": "raju",
+    "email": "raju@craftech360.com",
+    "gender": "Male",
+    "mobile number": "605-342-9927"
+  },
+  {
+    "id": 5,
+
+    "name": "Rahul",
+    "email": "rahul@craftech360.com",
+    "gender": "Male",
+    "mobile number": "605-342-9927"
+  },
+  {
+    "id": 6,
+
+    "name": "Yamuna",
+    "email": "yamuna@craftech360.com",
+    "gender": "Male",
+    "mobile number": "605-342-9927"
+  },
+  {
+    "id": 7,
+
+    "name": "Dhrithiman",
+    "email": "swanne0@bbc.co.uk",
+    "gender": "Male",
+    "mobile number": "605-342-9927"
+  },
+  {
+    "id": 8,
+
+    "name": "sanjay",
+    "email": "sanjay@craftech360.com",
+    "gender": "Male",
+    "mobile number": "605-342-9927"
+  }
+]
