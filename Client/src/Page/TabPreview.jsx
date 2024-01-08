@@ -91,13 +91,6 @@ const TabPreview = () => {
               </p>
             </Dragger>
           </div>
-          {/* <TextArea
-            placeholder="Write Subject"
-            value={inputSubject}
-            onChange={(e) => setInputSubject(e.target.value)}
-            className="my-4 mt-6  "
-            rows={4}
-          /> */}
 
           <Button
             type="primary"
@@ -134,16 +127,16 @@ const TabPreview = () => {
                 value={horizontalPosition}
                 onChange={handleHorizontalChange}
               />
-              <label htmlFor="size">Scanner Size:</label>
+              {/* <label htmlFor="size">Scanner Size:{scannerSize}</label>
               <input
                 className="ml-2"
                 type="range"
                 id="size"
                 min="1"
-                max="20"
+                max="100"
                 value={scannerSize}
                 onChange={handleScannerSizeChange}
-              />
+              /> */}
             </div>
           </div>
         </div>

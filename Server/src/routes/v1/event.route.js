@@ -27,6 +27,17 @@ router
     // auth('getEvents'), validate(eventValidation.getEvents),
     eventController.getTodaysEvent
   );
+
+router
+  .route('/expired')
+
+  // auth('createEvent'), validate(eventValidation.createEvent),
+  // eventController.createEvent
+
+  .get(
+    // auth('getEvents'), validate(eventValidation.getEvents),
+    eventController.getExpiredEvent
+  );
 router
   .route('/byorganization')
 

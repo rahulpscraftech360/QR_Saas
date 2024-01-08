@@ -88,7 +88,7 @@ const removeParticipant = async (eventId, userId) => {
   }
 };
 
-const getEventsForToday = async () => {
+const getEventsForToday = async (organizationId) => {
   try {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Set time to the beginning of the day
@@ -98,9 +98,28 @@ const getEventsForToday = async () => {
         $gte: today, // Events greater than or equal to today
         $lt: new Date(today.getTime() + 24 * 60 * 60 * 1000), // Events less than tomorrow
       },
+      organizer: organizationId,
     }).exec();
 
     return todaysEvents;
+  } catch (error) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, "Error fetching today's events");
+  }
+};
+
+const getEventsExpired = async (organizationId) => {
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set time to the beginning of the day
+
+    const expiredEvents = await Event.find({
+      date: {
+        $lt: today, // Events greater than or equal to today
+      },
+      organizer: organizationId,
+    }).exec();
+
+    return expiredEvents;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, "Error fetching today's events");
   }
@@ -116,4 +135,5 @@ module.exports = {
   getAllEventsByOrganization,
   removeParticipant,
   updateEventTemplate,
+  getEventsExpired,
 };

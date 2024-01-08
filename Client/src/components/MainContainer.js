@@ -65,7 +65,7 @@ const MainContainer = () => {
               <div className="mt-3 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 3xl:grid-cols-6 cursor-pointer p-5">
                 <Widget
                   icon={
-                    <MdDashboard className="h-10 w-10 p-2 rounded-md bg-[#1890FF]" />
+                    <MdDashboard className="h-10 w-10 p-2 rounded-md bg-[#d8ff18]" />
                   }
                   onClick={() => {
                     navigate("/events");
@@ -85,7 +85,7 @@ const MainContainer = () => {
                 />
                 <Widget
                   icon={
-                    <MdBarChart className="h-10 w-10 p-2 rounded-md bg-[#1890FF]" />
+                    <MdBarChart className="h-10 w-10 p-2 rounded-md bg-[#6c358d]" />
                   }
                   onClick={() => {
                     navigate("/events/updates");
@@ -95,19 +95,19 @@ const MainContainer = () => {
                 />
                 <Widget
                   icon={
-                    <MdDashboard className="h-10 w-10 p-2 rounded-md bg-[#1890FF]" />
+                    <MdDashboard className="h-10 w-10 p-2 rounded-md bg-[#ff4e18]" />
                   }
                   onClick={() => {
-                    navigate("/events/updates");
+                    navigate("/events/expired");
                   }}
                   // title={"Your Balance"}
-                  subtitle={"Updates"}
+                  subtitle={"Expired"}
                 />
                 <Widget
                   icon={
-                    <MdBarChart className="h-10 w-10 p-2 rounded-md bg-[#1890FF]" />
+                    <MdBarChart className="h-10 w-10 p-2 rounded-md bg-[#469334]" />
                   }
-                  title={"New "}
+                  // title={"New "}
                   subtitle={"Todays Events"}
                   onClick={() => {
                     navigate("/events/today");
@@ -115,9 +115,9 @@ const MainContainer = () => {
                 />
                 <Widget
                   icon={
-                    <IoMdHome className="h-10 w-10 p-2 rounded-md bg-[#1890FF]" />
+                    <IoMdHome className="h-10 w-10 p-2 rounded-md bg-[#ff18dc]" />
                   }
-                  title={"Total Events"}
+                  // title={"Total Events"}
                   subtitle={"2433"}
                 />
               </div>

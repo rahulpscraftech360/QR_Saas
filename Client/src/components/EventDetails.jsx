@@ -11,6 +11,7 @@ import {
 
 import { Button } from "antd";
 import Modal from "antd/es/modal/Modal.js";
+
 const EventDetails = ({ eventData, showAdd, setShowAdd }) => {
   const eventId = eventData.id;
   console.log("eventIdddd", eventId);

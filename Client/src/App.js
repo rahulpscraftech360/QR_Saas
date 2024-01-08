@@ -27,6 +27,7 @@ import Updates from "./Page/Updates";
 import Today from "./Page/Today";
 import ScanQR from "./Page/ScanQR";
 import TabPreview from "./Page/TabPreview";
+import Expired from "./Page/Expired";
 
 const AppRouter = () => {
   const isLogin = Boolean(
@@ -75,17 +76,23 @@ const AppRouter = () => {
             isLogin ? <Invitation /> : <Navigate to="/organization/login" />
           }
         />
-        <Route
-          path="/events/:id/scan"
-          element={isLogin ? <ScanQR /> : <Navigate to="/organization/login" />}
-        />
+        <Route path="/events/:id/scan" element={<ScanQR />} />
         <Route
           path="/events/updates"
           element={
             isLogin ? <Updates /> : <Navigate to="/organization/login" />
           }
         />
-        <Route path="/events/today" element={<Today />} />
+        <Route
+          path="/events/today"
+          element={isLogin ? <Today /> : <Navigate to="/organization/login" />}
+        />
+        <Route
+          path="/events/expired"
+          element={
+            isLogin ? <Expired /> : <Navigate to="/organization/login" />
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

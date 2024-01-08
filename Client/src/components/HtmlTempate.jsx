@@ -62,8 +62,8 @@ const HtmlTempate = (props) => {
           top: ${verticalPosition}%;
           left: ${horizontalPosition}%;
           transform: translate(-50%, -50%);
-          max-width: 25%;
-          max-height: 25%;
+          max-width:35%;
+          max-height: 35%;
           position: "absolute",
 
         }
@@ -108,8 +108,8 @@ const HtmlTempate = (props) => {
             top: ${verticalPosition}%; 
             left: ${horizontalPosition}%;
             transform: translate(-50%, -50%);
-            max-width: 25%;
-            max-height: 25%;
+            max-width:35%;
+          max-height: 35%;
             position: absolute;
           }
         </style>
@@ -191,8 +191,9 @@ const HtmlTempate = (props) => {
     //   element.click();
     //   document.body.removeChild(element);
     // }
+
     sendHtmlToBackend();
-    //navigate("events/updates");
+    navigate("/events/updates");
   };
 
   return (

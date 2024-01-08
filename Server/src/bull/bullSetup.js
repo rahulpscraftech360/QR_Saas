@@ -92,8 +92,22 @@ const emailWorker = new Worker(
     // Worker logic
     const { htmlTemplate, userId, subject } = job.data;
 
-    await sendEmail(htmlTemplate, userId, subject, job);
-    // console.log('Worker processed email job', job.id);
+    try {
+      console.log('userid', userId);
+      const totalParticipants = userId.length;
+      for (let i = 0; i < userId.length; i++) {
+        // eslint-disable-next-line no-await-in-loop
+        await sendEmail(htmlTemplate, userId[i], subject, job, i, totalParticipants);
+        const progress = Math.round(((i + 1) / userId.length) * 100);
+        // eslint-disable-next-line no-await-in-loop
+        await job.updateProgress(progress);
+        eventEmitter.emit('sseUpdate', { jobId: job.id, progress });
+      }
+    } catch (error) {
+      console.error(`Error processing job ${job.id}:`, error);
+      throw error; // Rethrow to mark the job as failed
+    }
+    console.log(userId);
   },
   { connection: redis }
 );
@@ -103,10 +117,12 @@ function sleep(ms) {
 }
 
 async function addEmailJob(htmlTemplate, userId, subject) {
+  let job;
   try {
     // Enqueue a job with specified data
-    await emailQueue.add('sendEmailJob', { htmlTemplate, userId, subject });
-    console.log('Email job added to the queue');
+    job = await emailQueue.add('sendEmailJob', { htmlTemplate, userId, subject });
+
+    eventEmitter.emit('sseUpdate', { message: `Job ${job.id} is waiting`, jobId: job.id, progress: 0 });
   } catch (error) {
     console.error('Failed to add email job to the queue:', error);
   }
@@ -121,16 +137,14 @@ emailWorker.on('progress', (job, progress) => {
   console.log(`Job ${job.id} is ${progress}% complete`);
   eventEmitter.emit('sseUpdate', { jobId: job.id, progress });
   // Remove the listener
+
+  sendSSEUpdate({ jobId: job.id, progress });
 });
 
 emailQueue.on('failed', async function (job, err) {
   console.log(`Job ${job.id} failed with error ${err}`);
 });
 
-// emailWorker.on('completed', (job) => {
-//   console.log(`Job ${job.id} has been completed`);
-
-// });
 emailWorker.on('completed', (job) => {
   console.log(`Job ${job.id} has been completed`);
   eventEmitter.emit('sseUpdate', { message: `Job ${job.id} has been completed`, jobId: job.id, progress: 100 });
@@ -140,9 +154,11 @@ emailWorker.on('error', (err) => {
   console.log(`Worker error: ${err}`);
 });
 
-emailWorker.on('waiting', (jobId) => {
-  console.log(`Job ${jobId} is waiting`);
-  eventEmitter.emit('sseUpdate', { message: `Job ${job.id} has been completed`, jobId: job.id, progress: 100 });
+emailWorker.on('waiting', (job, progress) => {
+  console.log(`Job ${job.id} is waiting`);
+  eventEmitter.emit('sseUpdate', { jobId: job.id, progress });
+
+  // sendSSEUpdate({ jobId: jobId, progress });
 });
 
 module.exports = { emailQueue, emailWorker, addEmailJob, eventEmitter }; // Export the queue if you want to use it elsewhere

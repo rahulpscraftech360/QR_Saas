@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import QRCodeScanner from "./QRCodeScanner"; // Assuming you have this component
 import axios from "../utils/axiosConfig";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const TabletQRCodeScanner = ({
   backgroundImage,
   scannerSize,
@@ -9,11 +10,13 @@ const TabletQRCodeScanner = ({
 }) => {
   const eventData = useSelector((store) => store.eventData[0]);
   const eventId = eventData.id;
+  console.log("scannerSize", scannerSize);
+  const navigate = useNavigate();
   const extractCSSSettings = () => {
     return {
       tabletContainer: {
-        width: "80%",
-        paddingTop: "60%",
+        width: "768px", // Increase the width for a larger preview
+        height: "100%",
         position: "relative",
         background: "white",
         borderRadius: "20px",
@@ -32,8 +35,10 @@ const TabletQRCodeScanner = ({
         backgroundRepeat: "no-repeat",
       },
       scanner: {
-        width: `${scannerSize}rem`, // You need to pass scannerSize value
-        height: `${1.5 * scannerSize}rem`, // Same here for scannerSize
+        width: "200px", // Adjust if necessary
+        height: "300px",
+        // width: `${scannerSize}%`, // You need to pass scannerSize value
+        // height: `${1.5 * scannerSize}%`, // Same here for scannerSize
         position: "absolute",
         top: `${scannerPosition.top}%`,
         left: `${scannerPosition.left}%`,
@@ -50,19 +55,25 @@ const TabletQRCodeScanner = ({
     }
   }, []);
   const handleUploadScannerTemplate = async () => {
-    const cssSettings = extractCSSSettings();
-    // setIsLoading(true);
-
     try {
+      const cssSettings = extractCSSSettings();
+      // setIsLoading(true);
+      console.log("CSS Settings:", cssSettings);
+
       const response = await axios.post(
         `/events/${eventId}/saveTemplate`,
         cssSettings
       );
 
-      if (response.ok) {
+      if (response.status === 200) {
         console.log("CSS settings saved successfully", response.data);
+        alert("Template settings saved successfully");
       } else {
-        console.error("Failed to save CSS settings");
+        console.error(
+          "Failed to save CSS settings",
+          response.status,
+          response.data
+        );
       }
     } catch (error) {
       console.error("Error:", error);
@@ -78,8 +89,8 @@ const TabletQRCodeScanner = ({
         <div
           className="tablet-container"
           style={{
-            width: "80%", // Increase the width for a larger preview
-            paddingTop: "60%", // Adjust padding-top to maintain the 4:3 aspect ratio (37.5% of 50%)
+            width: "768px", // Increase the width for a larger preview
+            height: "100%", // Adjust padding-top to maintain the 4:3 aspect ratio (37.5% of 50%)
             position: "relative", // for absolute positioning inside
             background: "white",
             borderRadius: "20px",
@@ -106,8 +117,8 @@ const TabletQRCodeScanner = ({
           <div
             className="scanner"
             style={{
-              width: `${scannerSize}rem`, // Adjust if necessary
-              height: `${1.5 * scannerSize}rem`, // Adjust if necessary
+              width: "200px", // Adjust if necessary
+              height: "300px",
               position: "absolute",
               top: `${scannerPosition.top}%`,
               left: `${scannerPosition.left}%`,

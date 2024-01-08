@@ -61,6 +61,7 @@ exports.sendEmail = async (req, res) => {
     const { htmlTemplate, participants, subject } = req.body;
     addEmailJob(htmlTemplate, participants, subject)
       .then(() => {
+        console.log('jobid');
         console.log('Email job added successfully');
       })
       .catch((err) => {

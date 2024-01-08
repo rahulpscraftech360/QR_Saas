@@ -253,13 +253,14 @@ const removeParticipant = async (req, res) => {
 };
 
 const getTodaysEvent = async (req, res) => {
+  const organizationId = req.params.organizationId;
   console.log('hereeeee');
   try {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Set the time to the beginning of the day
     console.log(today);
     // Query the database to find events for today's date
-    const result = await eventService.getEventsForToday();
+    const result = await eventService.getEventsForToday(organizationId);
 
     console.log(result);
     res.status(httpStatus.OK).send(result);
@@ -298,15 +299,36 @@ const addAttendees = async (req, res) => {
     res.status(httpStatus.BAD_REQUEST).send({ error: error.message });
   }
 };
-const saveScannerTemplate = async (req, res) => {
-  const { eventId } = req.params;
-  const event = await eventService.updateEventTemplate(eventId, req.body, { new: true });
-  if (!event) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Event not found');
+const saveScannerTemplate = async (req, res, next) => {
+  try {
+    const { eventId } = req.params;
+    const event = await eventService.updateEventTemplate(eventId, req.body, { new: true });
+    if (!event) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Event not found');
+    }
+    res.status(httpStatus.OK).send(event);
+  } catch (error) {
+    next(error); // Pass the error to the error-handling middleware
   }
-  res.status(httpStatus.OK).send(event);
 };
 
+const getExpiredEvent = async (req, res) => {
+  console.log('hereeeee');
+  const organizationId = req.params.organizationId;
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set the time to the beginning of the day
+    console.log(today);
+    // Query the database to find events for today's date
+    const result = await eventService.getEventsExpired(organizationId);
+
+    console.log(result);
+    res.status(httpStatus.OK).send(result);
+  } catch (error) {
+    console.error("Error fetching today's events:", error); // Log the error for debugging
+    throw new Error("Error fetching today's events"); // Throw an error to propagate it to the caller
+  }
+};
 module.exports = {
   addAttendees,
   getTodaysEvent,
@@ -322,4 +344,5 @@ module.exports = {
   getUsers,
   removeParticipant,
   saveScannerTemplate,
+  getExpiredEvent,
 };

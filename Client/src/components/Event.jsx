@@ -1,9 +1,18 @@
 import { Button, Card, Col, Descriptions, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import bgimage from "../assets/images/image-statue@2x.png";
+import ParticipantsTable from "./ParticipantsTable";
 
 const Event = ({ key, event }) => {
-  const { id, title, date, location, description } = event;
+  const {
+    id,
+    title,
+    date,
+    location,
+    description,
+    present,
+    participants,
+  } = event;
   const navigate = useNavigate();
   const handleclick = () => {
     navigate(`/events/${id}/participants`);
@@ -107,6 +116,12 @@ const Event = ({ key, event }) => {
                 </Descriptions.Item>
                 <Descriptions.Item label="Address" span={3}>
                   {location}
+                </Descriptions.Item>
+                <Descriptions.Item label="participants" span={3}>
+                  {participants.length}
+                </Descriptions.Item>
+                <Descriptions.Item label="attendees" span={3}>
+                  {present.length}
                 </Descriptions.Item>
                 <Descriptions.Item label="Date" span={3}>
                   {formatDate(date)}
