@@ -95,7 +95,7 @@ const emailWorker = new Worker(
     try {
       console.log('userid', userId);
       const totalParticipants = userId.length;
-      for (let i = 0; i < userId.length; i++) {
+      for (let i = 0; i < userId.length; i + 1) {
         // eslint-disable-next-line no-await-in-loop
         await sendEmail(htmlTemplate, userId[i], subject, job, i, totalParticipants);
         const progress = Math.round(((i + 1) / userId.length) * 100);
@@ -111,10 +111,6 @@ const emailWorker = new Worker(
   },
   { connection: redis }
 );
-// Function to simulate a delay
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 async function addEmailJob(htmlTemplate, userId, subject) {
   let job;

@@ -89,7 +89,7 @@ function QRCodeScanner() {
             const isAttended = eventData.present.includes(result);
 
             if (!isAttended) {
-              // alert("You have been added as a present attendee!");
+              //
               setMessage("User Added");
 
               // Perform actions to update the database - add user ID as presented
